@@ -1,9 +1,17 @@
 package modelo;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "persona")
 public class Persona {
+    @DatabaseField(id = true)
     private int dni;
+    @DatabaseField
     private String nombres;
+    @DatabaseField
     private char sexo; // 'F' o 'M'
+    @DatabaseField(columnName="lugar_nacimiento")
     private String lugarNacimiento; // Cusco, Lima, Tacna
 
     public Persona() {

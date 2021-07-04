@@ -1,5 +1,7 @@
 package control;
 
+import dao.PersonaDao;
+import java.util.List;
 import modelo.*;
 
 public class GestorPersona {
@@ -59,8 +61,11 @@ public class GestorPersona {
 
     public String mostrar() {
         String cadena = "";
+        PersonaDao personaDao = new PersonaDao();
+        List<Persona> lista = personaDao.listar();
+        int n = lista.size();
         for (int i = 0; i < n; i++) {
-            cadena = cadena + arr[i].getNombres() + "\n";
+            cadena = cadena + lista.get(i).getNombres() + "\n";
         }
         return cadena;
     }
