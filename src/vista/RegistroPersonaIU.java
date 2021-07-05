@@ -38,6 +38,7 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
         modeloTablaPersona.addColumn("Lugar Nacimiento");
         // Enlazar el modelo con el control JTable
         tablaPersona.setModel(modeloTablaPersona);
+        actualizarTablaPersona(true);
     }
     public void limpiarTablaPersona(){
         for (int i = modeloTablaPersona.getRowCount()-1; i >=0 ; i--) {
@@ -47,7 +48,10 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
     /*
     * Actualizar el modelo tabla
     */
-    public void actualizarTablaPersona(){
+    public void actualizarTablaPersona(boolean refrescar){
+        if(refrescar){
+            gestorPersona.refrescar();
+        }
         // Limpiar la TablaPersona 
         limpiarTablaPersona();
         // Recuperar los datos de Gestion Persona
@@ -302,7 +306,7 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
         // Registrar a la persona en el arreglo de Personas
         gestorPersona.agregar(objPersona);
         // Actualizar la tabla Persona en la Interfaz
-        actualizarTablaPersona();
+        actualizarTablaPersona(true);
         JOptionPane.showMessageDialog(rootPane, "Se agrego con Exito..");        
         // Limpiar el Formulario
         txtDNI.setText("");
@@ -328,12 +332,10 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
                 // identificar el dni de la fila selecciona
                 Object temp = modeloTablaPersona.getValueAt(numFila, 0); // obtener el valor de una celda
                 int dni = Integer.valueOf(String.valueOf(temp));
-                // ubicar la posicion donde se encuentra la persona con el dni seleccionado
-                int pos = gestorPersona.posicion(dni);
-                // Eliminar a la persona de la posicion identificada
-                gestorPersona.eliminar(pos);
+                // Eliminar a la persona con el dni
+                gestorPersona.eliminar(dni);
                 // Actualizar la vista - Tabla donde se visualiza la informacion de las personas
-                actualizarTablaPersona();
+                actualizarTablaPersona(true);
             }else{ // no selecciono una fila
                 JOptionPane.showMessageDialog(rootPane, "Debe seleccionar una fila");
             }
@@ -343,13 +345,13 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
     private void btnOrdenarPorNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarPorNombresActionPerformed
         // Ordenar los datos por nombres
         gestorPersona.ordenarPorNombres();
-        actualizarTablaPersona();
+        actualizarTablaPersona(false);
     }//GEN-LAST:event_btnOrdenarPorNombresActionPerformed
 
     private void btnOrdenarPorCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarPorCiudadActionPerformed
         // TODO add your handling code here:
         gestorPersona.ordenarPorCiudad();
-        actualizarTablaPersona();
+        actualizarTablaPersona(false);
     }//GEN-LAST:event_btnOrdenarPorCiudadActionPerformed
 
     /**

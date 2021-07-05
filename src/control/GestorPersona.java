@@ -11,8 +11,7 @@ public class GestorPersona {
     private int n; // Cantidad de personas registradas en el arreglo
 
     public GestorPersona() {
-        arr = new Persona[MAX];
-        n = 0;
+        refrescar();
     }
 
     // Operaciones
@@ -24,20 +23,21 @@ public class GestorPersona {
 
     // Agregar una persona al Arreglo
 
-    public void agregar(Persona persona) {
-        if (n < MAX) { // hay espacio en el arreglo
-            arr[n] = persona;
-            n++;
+    public void agregar(Persona persona) {        
+        PersonaDao personaDao = new PersonaDao();
+        Persona personaActualizar = personaDao.obtener(persona.getDni());
+        if(personaActualizar == null){
+            personaDao.crear(persona);
+        }else{
+            personaDao.actualizar(persona);
         }
     }
 
-    public void eliminar(int pos) {
-        if (pos >= 0 && pos < n) { // La posicion existe en el arreglo
-            // Desplazar los elementos a la izquieda
-            for (int i = pos; i < n - 1; i++) {
-                arr[i] = arr[i + 1];
-            }
-            n--;
+    public void eliminar(int dni) {
+        PersonaDao personaDao = new PersonaDao();
+        Persona persona = personaDao.obtener(dni);
+        if(persona != null){
+            personaDao.eliminar(persona);
         }
     }
 
@@ -96,5 +96,13 @@ public class GestorPersona {
             }
         }
     }
+    
+    public void refrescar(){
+        PersonaDao personaDao = new PersonaDao();
+        List<Persona> lista = personaDao.listar();
 
+        arr = new Persona[lista.size()];        
+        arr = lista.toArray(arr);
+        n = arr.length;
+    }
 }

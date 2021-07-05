@@ -5,6 +5,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "persona")
 public class Persona {
+    public static final String PERSONA_DNI = "dni";
+    
     @DatabaseField(id = true)
     private int dni;
     @DatabaseField
