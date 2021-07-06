@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class Database {
     private final String DATABASE_URL = "jdbc:sqlite:db\\demo.db";
     
-  protected ConnectionSource getConnection() {
+  public ConnectionSource getConnection() {
         try {
             return new JdbcConnectionSource(DATABASE_URL);
         } catch (SQLException ex) {
