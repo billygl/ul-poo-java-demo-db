@@ -13,17 +13,17 @@ public class Persona {
     private String nombres;
     @DatabaseField
     private char sexo; // 'F' o 'M'
-    @DatabaseField(columnName="lugar_nacimiento")
-    private String lugarNacimiento; // Cusco, Lima, Tacna
+    @DatabaseField(canBeNull = false, foreign = true, columnName = "lugar_id")
+    private Lugar lugarNacimiento; // Cusco, Lima, Tacna
 
     public Persona() {
         this.dni = 0;
         this.nombres = "";
         this.sexo = '\u0000';
-        this.lugarNacimiento = "";        
+        this.lugarNacimiento = new Lugar();
     }
 
-    public Persona(int dni, String nombres, char sexo, String lugarNacimiento) {
+    public Persona(int dni, String nombres, char sexo, Lugar lugarNacimiento) {
         this.dni = dni;
         this.nombres = nombres;
         this.sexo = sexo;
@@ -54,11 +54,11 @@ public class Persona {
         this.sexo = sexo;
     }
 
-    public String getLugarNacimiento() {
+    public Lugar getLugarNacimiento() {
         return lugarNacimiento;
     }
 
-    public void setLugarNacimiento(String lugarNacimiento) {
+    public void setLugarNacimiento(Lugar lugarNacimiento) {
         this.lugarNacimiento = lugarNacimiento;
     }    
 

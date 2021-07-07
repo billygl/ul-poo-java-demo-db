@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
  * @author User
  */
 import control.*;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import modelo.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,7 +23,7 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
     // Una estructura de datos donde se almacena la informacion 
     // que se visualiza en un control de tipo JTable
     private DefaultTableModel modeloTablaPersona;
-
+    private DefaultComboBoxModel modeloComboLugar;
     /**
      * Creates new form RegistroPersonaIU
      */
@@ -39,6 +41,14 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
         // Enlazar el modelo con el control JTable
         tablaPersona.setModel(modeloTablaPersona);
         actualizarTablaPersona(true);
+        
+        modeloComboLugar = new DefaultComboBoxModel();
+        List<Lugar> lugares = gestorPersona.obtenerLugares();
+        for (Lugar lugar : lugares) {
+            modeloComboLugar.addElement(lugar);
+        }
+        cboLugarNacimiento.setModel(modeloComboLugar);
+        
     }
     public void limpiarTablaPersona(){
         for (int i = modeloTablaPersona.getRowCount()-1; i >=0 ; i--) {
@@ -62,7 +72,7 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
             fila[0] = String.valueOf(dni);
             fila[1] = gestorPersona.iesimo(i).getNombres();
             fila[2] = String.valueOf(gestorPersona.iesimo(i).getSexo());
-            fila[3] = gestorPersona.iesimo(i).getLugarNacimiento();
+            fila[3] = gestorPersona.iesimo(i).getLugarNacimiento().getNombre();
             // Agregar un registro al modelo Tabla
             modeloTablaPersona.addRow(fila);
         }
@@ -178,8 +188,6 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
         );
 
         jLabel4.setText("Lugar de Nacimiento:");
-
-        cboLugarNacimiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Amazonas", "Ancash", "Apurimac", "Arequipa", "Ayacucho", "Cajamarca", "Callao", "Cusco", "Huancavelica", "Huanuco", "Ica", "Junin", "La Libertad", "Lambayeque", "Lima", "Loreto", "Madre De Dios", "Moquegua", "Pasco", "Piura", "Puno", "San Martin", "Tacna", "Tumbes", "Ucayali" }));
 
         btnOrdenarPorNombres.setText("Ordenar por Nombres");
         btnOrdenarPorNombres.addActionListener(new java.awt.event.ActionListener() {
@@ -301,7 +309,7 @@ public class RegistroPersonaIU extends javax.swing.JFrame {
             sexo = 'M';
         }
         // Recuperar el Lugar de nacimiento
-        String lugarNacimiento = cboLugarNacimiento.getSelectedItem().toString();
+        Lugar lugarNacimiento = (Lugar) cboLugarNacimiento.getSelectedItem();
         Persona objPersona = new Persona(dni,nombres,sexo,lugarNacimiento);
         // Registrar a la persona en el arreglo de Personas
         gestorPersona.agregar(objPersona);

@@ -1,5 +1,6 @@
 package control;
 
+import dao.LugarDao;
 import dao.PersonaDao;
 import java.util.List;
 import modelo.*;
@@ -86,8 +87,9 @@ public class GestorPersona {
     public void ordenarPorCiudad() {
         for (int i = 0; i < n; i++) {
             for (int j = n - 1; j > i; j--) {
-                if (arr[j].getLugarNacimiento().
-                        compareTo(arr[j - 1].getLugarNacimiento()) < 0) {
+                if (arr[j].getLugarNacimiento().getNombre().
+                    compareTo(arr[j - 1].getLugarNacimiento().getNombre()) 
+                    < 0) {
                     // Intercambiar
                     Persona aux = arr[j];
                     arr[j] = arr[j - 1];
@@ -100,9 +102,19 @@ public class GestorPersona {
     public void refrescar(){
         PersonaDao personaDao = new PersonaDao();
         List<Persona> lista = personaDao.listar();
+        
+        LugarDao lugarDao = new LugarDao();
+        for (Persona persona : lista) {
+            lugarDao.refrescar(persona.getLugarNacimiento());
+        }
 
         arr = new Persona[lista.size()];        
         arr = lista.toArray(arr);
         n = arr.length;
+    }
+    
+    public List<Lugar> obtenerLugares(){
+        LugarDao lugarDao = new LugarDao();
+        return lugarDao.listar();
     }
 }
