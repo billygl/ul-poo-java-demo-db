@@ -13,7 +13,8 @@ public class Persona {
     private String nombres;
     @DatabaseField
     private char sexo; // 'F' o 'M'
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "lugar_id")
+    @DatabaseField(canBeNull = false, foreign = true, columnName = "lugar_id",
+            foreignAutoRefresh=true)
     private Lugar lugarNacimiento; // Cusco, Lima, Tacna
 
     public Persona() {

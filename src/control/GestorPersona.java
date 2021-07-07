@@ -102,11 +102,6 @@ public class GestorPersona {
     public void refrescar(){
         PersonaDao personaDao = new PersonaDao();
         List<Persona> lista = personaDao.listar();
-        
-        LugarDao lugarDao = new LugarDao();
-        for (Persona persona : lista) {
-            lugarDao.refrescar(persona.getLugarNacimiento());
-        }
 
         arr = new Persona[lista.size()];        
         arr = lista.toArray(arr);

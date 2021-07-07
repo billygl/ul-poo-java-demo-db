@@ -35,22 +35,4 @@ public class LugarDao extends Database{
         }
         return list;
     }
-    
-    public void refrescar(Lugar lugar){
-        ConnectionSource con = null;
-        try {
-            con = this.getConnection();
-            Dao<Lugar, String> lugarDao =
-                    DaoManager.createDao(con, Lugar.class);
-            lugarDao.refresh(lugar);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally{
-            try {
-                con.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
 }
